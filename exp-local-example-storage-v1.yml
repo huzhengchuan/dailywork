@@ -1,0 +1,46 @@
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-storage
+provisioner: kubernetes.io/no-provisioner
+
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: nginx-pvc
+  labels:
+    type: amazonEBS
+spec:
+  storageClassName: local-storage
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nginx-with-pvc
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        service: nginx
+        app: test
+    spec:
+      containers:
+      - image: nginx:1.13
+        name: nginx-with-pvc
+        volumeMounts:
+        - mountPath: /test-ebs
+          name: my-pvc
+      volumes:
+      - name: my-pvc
+        persistentVolumeClaim:
+          claimName: nginx-pvc
+
