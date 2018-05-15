@@ -1,0 +1,62 @@
+Kubeweekly #131
+
+Kubernetes 1.10: Hidden Gems
+Kubernetes1.10发布，带来了以下新的特性
+Device plugins特性在kubernetes1.10版本进入beta,可以在node的资源属性上增加更多的属性，可以定义GPU以及高性能NIC到Node上，之后在Pod中定义声明对于该类型资源的申请，通过Device plugins以及API可以实现对于该类资源的调度。当前GPU支持nVidia.
+
+coreDNS
+coreDNS将会作为kubernetes的DNS组件的一个选择，当前处于Beta状态，未来将作为kubernetes默认的DNS服务发现工作
+
+Pids per pod limit
+增强了对于负载的隔离机制，引入了可以限制Pod中pids数量的特性，该特性当前处于alpha
+
+Shared PID Namespaces
+在一个pod内部共享进程命名控制，该特性处于alpha状态，该特性可以使得Pod中的container可以看到其他的container,并且signal可以在pod中container之间发送，同时该feature可以给sidecar container带来更多的可能，比如可以发送SIGHUP信号实现对于应用的重新配置加载
+
+CRD sub-resources
+对于自定义资源对象包含Subresources,例如/status和/scale. 可以提供独立的api来修改subresources的内容，通过该特性可以像HorizontalPodAutoScaler一样跟系统进行交互，同时也可以控制spec和status的内容，该特性1.10版本处于alpha
+
+External Custom Metrics
+可以自定义指标，并且跟HPA配合使用实现更多的autoscaling场景的需求
+
+
+自定义kubectl get 以及kubectl describe的输出
+Kubernetes可以自定义kubectl get/kubectl describe的输出
+
+
+Volume scheduling和local storage
+Local storage特性进入beta状态，关于volume scheduling在1.10版本里面默认开启，该特性对于需要使用本地存储以及对于需要高性能本地存储的使用提供了便利。
+
+https://blog.jetstack.io/blog/hidden-gems-1.10/
+
+
+Liveness以及readiness探针
+Liveness用于解决pod是runing的，但是不能提供pod的功能
+Readiness主要用于表示pod可以用于服务了，可以切换作为services所对于的backends.当readiness不能正常工作的时候，也会从services的backends里面移除出去。
+
+
+探针支持三种类型
+1.HTTP GET方法
+2.TCP socket probe, 尝试打开一个TCP连接
+3.可在container里面执行的内容
+
+https://opensource.com/article/18/3/kubernetes-liveness-readiness-probes
+
+
+
+Six Tips for Running Scalable Workloads on Kubernetes
+
+https://www.infoq.com/articles/tips-running-scalable-workloads-kubernetes
+
+
+
+
+https://codeburst.io/microservices-from-idea-to-starting-line-d6e8cd5e9bb4
+
+
+Draft vs Gitkube vs Helm vs Ksonnet vs Metaparticle vs Skaffold
+https://blog.hasura.io/draft-vs-gitkube-vs-helm-vs-ksonnet-vs-metaparticle-vs-skaffold-f5aa9561f948
+
+
+Authe对比
+https://medium.com/@etienne_24233/comparing-kubernetes-authentication-methods-6f538d834ca7
